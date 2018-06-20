@@ -13,3 +13,4 @@ yarn-error.log
 .env*
 /phpmyadmin
 .editorconfig
+/public/comsumer

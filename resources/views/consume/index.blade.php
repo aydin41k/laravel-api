@@ -61,7 +61,7 @@
 			}
 		}
 		$(()=>{
-			$.get('http://kh-api.test/api/todos')
+			$.get('http://laravel-api.coderoo.com.au/api/todos')
 				.done(data=>populateTable(data));
 		});
 	</script>
