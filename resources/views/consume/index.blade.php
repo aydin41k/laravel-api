@@ -34,6 +34,14 @@
 	    <label for="password">Password</label>
 	    <input type="password" class="form-control" id="password" placeholder="Password">
 	  </div>
+	  <div class="form-group">
+	    <label for="client_id">Client ID</label>
+	    <input type="text" class="form-control" id="client_id" placeholder="Client ID">
+	  </div>
+	  <div class="form-group">
+	    <label for="client_secret">Client Token</label>
+	    <input type="text" class="form-control" id="client_secret" placeholder="Token">
+	  </div>
 	  <div class="form-check">
 	    <input type="checkbox" class="form-check-input" id="exampleCheck1">
 	    <label class="form-check-label" for="exampleCheck1">Check me out</label>
@@ -84,17 +92,18 @@
 			})
 			.done(data=>populateTable(data));
 		}
-		const sendRequest = (email,password) => {
+		const sendRequest = (request) => {
 			$.ajax({
 			  method: "POST",
 			  headers: {Accept: 'application/json'},
 			  url: "http://kh-api.test/oauth/token",
 			  data: { 
-			  	client_id:2, 
-			  	client_secret:'6gVUBjxy3Ll9reH75fqVJwiKtAfQCAKbxBEUxivK', 
+			  	client_id: request.client_id, 
+			  	client_secret: request.client_secret,
+			  	// Secret: 6gVUBjxy3Ll9reH75fqVJwiKtAfQCAKbxBEUxivK
 			  	grant_type:'password',
-			  	username: email,
-			  	password: password, 
+			  	username: request.email,
+			  	password: request.password, 
 			  	scope:'*'
 			  },
 			  dataType: 'json',
@@ -103,7 +112,13 @@
 		};
 		$('#btn_login').click((e)=>{
 			e.preventDefault();
-			sendRequest($('#email').val(),$('#password').val());
+			const request = {
+				email: $('#email').val(),
+				password: $('#password').val(),
+				client_id: $('#client_id').val(),
+				client_secret: $('#client_secret').val()				 
+			}
+			sendRequest(request);
 			$('#form_todos').slideUp(()=>{
 				$('#todo').removeClass('hide');
 			});
