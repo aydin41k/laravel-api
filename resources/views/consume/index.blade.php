@@ -24,7 +24,23 @@
   <!-- Add your site or application content here -->
   <div id="todo_container" class="container">
   	<h2>Todos</h2>
-	<table id="todo" class="table">
+	<form id="form_todos">
+	  <div class="form-group">
+	    <label for="email">Email address</label>
+	    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+	    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	  </div>
+	  <div class="form-group">
+	    <label for="password">Password</label>
+	    <input type="password" class="form-control" id="password" placeholder="Password">
+	  </div>
+	  <div class="form-check">
+	    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+	    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+	  </div>
+	  <button id="btn_login" type="submit" class="btn btn-primary">Submit</button>
+	</form>  	
+	<table id="todo" class="table hide">
 		<thead>
 			<tr>
 				<th>Todo ID</th>
@@ -39,7 +55,6 @@
 		</tbody>
 	</table>
   </div>
-
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -60,9 +75,38 @@
 					`);
 			}
 		}
-		$(()=>{
-			$.get('http://laravel-api.coderoo.com.au/api/todos')
-				.done(data=>populateTable(data));
+		const getToken = authResponse => {
+			$.ajax({
+				method: "GET",
+				headers: { Authorization: 'Bearer '+authResponse.access_token },
+				url: 'http://kh-api.test/api/todos',
+				dataType: 'json'
+			})
+			.done(data=>populateTable(data));
+		}
+		const sendRequest = (email,password) => {
+			$.ajax({
+			  method: "POST",
+			  headers: {Accept: 'application/json'},
+			  url: "http://kh-api.test/oauth/token",
+			  data: { 
+			  	client_id:2, 
+			  	client_secret:'6gVUBjxy3Ll9reH75fqVJwiKtAfQCAKbxBEUxivK', 
+			  	grant_type:'password',
+			  	username: email,
+			  	password: password, 
+			  	scope:'*'
+			  },
+			  dataType: 'json',
+			})
+			.done(response=>getToken(response));
+		};
+		$('#btn_login').click((e)=>{
+			e.preventDefault();
+			sendRequest($('#email').val(),$('#password').val());
+			$('#form_todos').slideUp(()=>{
+				$('#todo').removeClass('hide');
+			});
 		});
 	</script>
   <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
