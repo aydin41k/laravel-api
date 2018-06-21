@@ -100,10 +100,11 @@
 			  data: { 
 			  	client_id: request.client_id, 
 			  	client_secret: request.client_secret,
-			  	// Secret: 6gVUBjxy3Ll9reH75fqVJwiKtAfQCAKbxBEUxivK
+			  	// Secret: 6gVUBjxy3Ll9reH75fqVJwiKtAfQCAKbxBEUxivK	
 			  	grant_type:'password',
 			  	username: request.email,
-			  	password: request.password, 
+			  	password: request.password,
+			  	// Pass: secret
 			  	scope:'*'
 			  },
 			  dataType: 'json',
@@ -116,7 +117,7 @@
 				email: $('#email').val(),
 				password: $('#password').val(),
 				client_id: $('#client_id').val(),
-				client_secret: $('#client_secret').val()				 
+				client_secret: $('#client_secret').val()
 			}
 			sendRequest(request);
 			$('#form_todos').slideUp(()=>{
