@@ -18,3 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/todos','TodoController')->middleware('auth:api');
+Route::get('conversations/centre/{id}','ConversationController@centre')->middleware('auth:api');
+Route::get('conversations/messages/{convo_id}','ConversationMessageController@show')->middleware('auth:api');

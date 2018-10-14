@@ -18,3 +18,6 @@ Route::get('/', function () {
 Route::get('/consume', function() {
 	return view('consume.index');
 });
+
+Route::get('conversations/centre/{id}','ConversationController@centre');
+Route::get('conversations/messages/{convo_id}','ConversationMessageController@show');
