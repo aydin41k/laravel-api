@@ -21,4 +21,4 @@ Route::get('/consume', function() {
 
 //Route::get('conversations/centre/{id}','ConversationController@centre');
 //Route::get('conversations/messages/{convo_id}','ConversationMessageController@show');
-Route::get('conversations/parent/{parent_id}','ConversationPartyController@show');
+//Route::get('conversations/parent/{parent_id}','ConversationPartyController@show');

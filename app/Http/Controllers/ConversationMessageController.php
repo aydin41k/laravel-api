@@ -35,7 +35,14 @@ class ConversationMessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $msg = ConversationMessage::create([
+            'human_id' => $request->human_id,
+            'conversation_id' => $request->convo_id,
+            'body' => $request->msg,
+            'guid' => substr(md5(rand()), 0, 15)
+        ]);
+
+        return $msg;
     }
 
     /**
