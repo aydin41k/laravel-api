@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conversation;
 use App\ConversationParty;
 use Illuminate\Http\Request;
 
@@ -44,9 +45,15 @@ class ConversationPartyController extends Controller
      * @param  \App\ConversationParty  $conversationParty
      * @return \Illuminate\Http\Response
      */
-    public function show(ConversationParty $conversationParty)
+    public function show($id)
     {
-        //
+        $messages = Conversation::whereHas('parties',function($q) use ($id) {
+            $q->where('human_id','like',$id);
+        })->with('messages','parties')->get();
+//        $messages = Conversation::with(['parties' => function($query) use ($id) {
+//           $query->where('human_id','like',$id);
+//        }],'messages')->get();
+        return $messages;
     }
 
     /**
