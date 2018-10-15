@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conversation;
 use App\ConversationMessage;
 use Illuminate\Http\Request;
 
@@ -53,8 +54,9 @@ class ConversationMessageController extends Controller
      */
     public function show($id)
     {
+        $subject = Conversation::select('subject')->where('id',$id)->get();
         $messages = ConversationMessage::where('conversation_id',$id)->get(); 
-        return $messages;
+        return ['subject'=>$subject[0]->subject,'messages' => $messages];
     }
 
     /**
