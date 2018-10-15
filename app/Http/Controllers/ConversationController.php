@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Conversation;
+use App\ConversationMessage;
+use App\ConversationParty;
 use Illuminate\Http\Request;
 
 class ConversationController extends Controller
@@ -35,7 +37,35 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $convo = Conversation::create([
+            'centre_id' => $request->centre,
+            'subject' => $request->subject,
+            'source' => $request->source
+        ]);
+
+        $msg = ConversationMessage::create([
+            'human_id' => $request->human_id,
+            'conversation_id' => $convo->id,
+            'body' => $request->msg,
+            'guid' => substr(md5(rand()), 0, 15)
+        ]);
+
+        $owner = ConversationParty::create([
+            'conversation_id' => $convo->id,
+            'human_id' => $request->human_id,
+            'role' => 1
+        ]);
+
+        $participants = explode(',',$request->parties);
+        foreach( $participants as $human ) {
+            $party = ConversationParty::create([
+                'conversation_id' => $convo->id,
+                'human_id' => $human,
+                'role' => 3
+            ]);
+        }
+
+        return $convo;
     }
 
     /**

@@ -22,4 +22,5 @@ Route::get('conversations/centre/{id}','ConversationController@centre')->middlew
 Route::get('conversations/messages/{convo_id}','ConversationMessageController@show')->middleware('auth:api');
 Route::get('conversations/parent/{parent_id}','ConversationPartyController@show')->middleware('auth:api');
 
+Route::post('conversations/new','ConversationController@store')->middleware('auth:api');
 Route::post('conversations/message/new','ConversationMessageController@store')->middleware('auth:api');
